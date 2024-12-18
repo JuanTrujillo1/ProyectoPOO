@@ -46,27 +46,36 @@ router.post("/", function (Peticion, Respuesta) {
 });
 
 // obtiene un usuario específico por el "id"
-router.get("/:id", function (Peticion, Respuesta) {
-  console.log(Peticion.params.id);
+router.get("/Usuarios/Usuario/:id", function (Peticion, Respuesta) {
+  //console.log(Peticion.params.id);
 
-  Respuesta.json({
-    mensaje: "Hola desde la ruta id",
+  User.findById(Peticion.params.id).then(function (usuarios) {
+    Respuesta.json({
+      data: usuarios,
+    });
   });
+
 });
 
 // actualiza un usuario existente
-router.put("/:id", function (Peticion, Respuesta) {
-  console.log(Peticion.params.id);
-
-  Respuesta.json({
-    mensaje: "Hola desde el endpoint PUT",
+router.put("/Usuarios/Actualizar/:id", function (Peticion, Respuesta) {
+  //console.log(Peticion.params.id);
+   
+  User.findByIdAndUpdate(Peticion.params.id, Peticion.body, { new: true }).then(function (Usuarios) {
+    Respuesta.json({
+      data: Usuarios,
+      mensaje: "Usuario Actualizado Con Exito"
+    })
   });
 });
 
-router.delete("/:id", function (Peticion, Respuesta) {
-  console.log(Peticion.params.id);
+router.delete("/Usuarios/Eliminar/:id", function (Peticion, Respuesta) {
+  //console.log(Peticion.params.id);
 
-  Respuesta.json({
-    mensaje: "Hola desde el endpoint DELETE",
-  });
+  User.findByIdAndDelete(Peticion.params.id).then(function (Usuarios) { 
+    Respuesta.json({
+       data: Usuarios,
+       mensaje: "Usuario Eliminado Con Exito"
+      });
+    });
 });
